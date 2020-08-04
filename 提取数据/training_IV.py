@@ -1,4 +1,3 @@
-import json
 from lxml.html import etree
 
 
@@ -21,5 +20,6 @@ def parse_winner(html_code):
 
 
 if __name__ == "__main__":
+    import json
     parse_buyer()
     parse_winner()
