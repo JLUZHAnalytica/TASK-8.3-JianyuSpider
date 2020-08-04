@@ -7,10 +7,10 @@ headers = {
     'cookie': '',
     'user-agent': ''
 }
-with open('brief_list.json', 'r', encoding="utf-8") as load_f:
+with open('data/brief_list.json', 'r', encoding="utf-8") as load_f:
     data = json.load(load_f)
 
-for i in range(500):
+for i in range(len(data)):
     xid = data[i]['_id']
     data[i].clear()
     data[i] = {'_id': xid}
