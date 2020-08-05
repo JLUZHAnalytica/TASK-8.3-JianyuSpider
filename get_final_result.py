@@ -1,5 +1,8 @@
 import json
-from zyf import parse_bidtime
+from extract import parse_bidtime
+from extract import training_IV
+
+
 import time
 
 
@@ -17,11 +20,17 @@ def timestamp_datetime(value):
 with open("data/result_half.json", 'r') as fd:
     data = json.load(fd)
 
+with open("data/html_list.json", 'r') as fd:
+    temp_data = json.load(fd)
+    html_data = {}
+    for item in temp_data:
+        html_data[item["_id"]] = item["html_code"]
+
 for item in data:
     item["publishtime"] = timestamp_datetime(item["publishtime"])
-    item.update({"buyer": parse_buyer(item["html_code"])})
-    item.update({"winner": parse_winner(item["html_code"])})
-    item.update({"bidtime": parse_bidtime(item["html_code"])})
+    item.update({"buyer": training_IV.parse_buyer(html_data[item["_id"]])})
+    item.update({"winner": training_IV.parse_winner(html_data[item["_id"]])})
+    item.update({"bidtime": parse_bidtime.parse(html_data[item["_id"]])})
 
 with open("data/result_final.json", 'w') as fd:
     fd.write(json.dumps(data, ensure_ascii=False, indent=4))
